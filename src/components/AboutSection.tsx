@@ -1,3 +1,5 @@
+import { siteConfig } from "@/config/site";
+
 const AboutSection = () => {
   return (
     <section id="about" className="py-24 px-6 bg-secondary">
@@ -11,12 +13,10 @@ const AboutSection = () => {
           <span className="w-8 h-1 rounded-full bg-kite-blue" />
         </div>
 
-        <p className="text-lg text-muted-foreground leading-relaxed mb-6">
-          KITE STATIONARY is a creative and quality-focused stationery brand built for students, artists, and professionals. We blend affordability with a premium feel — because great ideas deserve great tools.
-        </p>
+        <p className="text-lg text-muted-foreground leading-relaxed mb-6">{siteConfig.aboutText}</p>
 
         <p className="text-foreground font-heading font-medium text-xl italic">
-          "Helping you think better, create freely, and repeat success every day."
+          "{siteConfig.mission}"
         </p>
       </div>
     </section>
