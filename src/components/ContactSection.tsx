@@ -1,14 +1,51 @@
 import { Phone, Mail, MapPin } from "lucide-react";
 import { useState } from "react";
 import { siteConfig } from "@/config/site";
+import { supabase } from "@/lib/supabase"
 
 const ContactSection = () => {
   const [formData, setFormData] = useState({ name: "", email: "", message: "" });
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
+  // const handleSubmit = (e: React.FormEvent) => {
+  //   e.preventDefault();
+  //   setFormData({ name: "", email: "", message: "" });
+  // };
+
+const handleSubmit = async (e: React.FormEvent) => {
+  e.preventDefault();
+
+  try {
+    // 1️⃣ Save to Supabase DB
+    const { error } = await supabase
+      .from("contact_messages")
+      .insert([formData]);
+
+    if (error) throw error;
+
+    // 2️⃣ Call Edge Function (send email)
+    await fetch(
+      import.meta.env.VITE_SUPABASE_URL+"/functions/v1/send-email",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": "Bearer "+import.meta.env.VITE_SUPABASE_ANON_KEY, // ✅ REQUIRED
+        },
+        body: JSON.stringify(formData),
+      }
+    );
+
+    // ✅ Success
+    alert("Message sent successfully 🚀");
+
+    // Reset form
     setFormData({ name: "", email: "", message: "" });
-  };
+
+  } catch (err) {
+    console.error(err);
+    alert("Something went wrong ❌");
+  }
+};
 
   const contactInfo = [
     { icon: Phone, label: siteConfig.phone },
