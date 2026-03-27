@@ -2,7 +2,7 @@ import { siteConfig } from "@/config/site";
 
 const imageMap: Record<string, string> = {
   green: "https://images.unsplash.com/photo-1456735190827-d1262f71b8a3?w=600&h=400&fit=crop&q=80",
-  blue: "https://images.unsplash.com/photo-1583485088034-697b5bc54ccd?w=600&h=400&fit=crop&q=80",
+  blue: "https://images.unsplash.com/photo-1584628804572-f84284d9f388?w=600&h=400&fit=crop&q=80",
   red: "https://images.unsplash.com/photo-1513364776144-60967b0f800f?w=600&h=400&fit=crop&q=80",
   yellow: "https://images.unsplash.com/photo-1612815154858-60aa4c59eaa6?w=600&h=400&fit=crop&q=80",
 };

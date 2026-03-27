@@ -6,7 +6,7 @@ export const siteConfig = {
   description: "Your one-stop shop for quality stationery, fine writing & creative supplies",
   mission: "Helping you think better, create freely, and repeat success every day.",
   aboutText:
-    "KITE STATIONARY is a creative and quality-focused stationery brand built for students, artists, and professionals. We blend affordability with a premium feel — because great ideas deserve great tools.",
+    "We believe that great ideas deserve great tools. Based in Kalyan, KITE was born from a simple philosophy: Think. Create. Repeat. We curate a selection of fine stationery and premium writing instruments that blend timeless aesthetics with modern functionality. Whether you are a student, an artist, or a professional, we provide the canvas for your next big idea.",
 
   // Contact
   phone: "+91 83905 77189 | +91 8689814110",
