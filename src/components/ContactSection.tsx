@@ -1,51 +1,31 @@
 import { Phone, Mail, MapPin } from "lucide-react";
 import { useState } from "react";
 import { siteConfig } from "@/config/site";
-import { supabase } from "@/lib/supabase"
+import { supabase } from "@/lib/supabase";
 
 const ContactSection = () => {
   const [formData, setFormData] = useState({ name: "", email: "", message: "" });
 
-  // const handleSubmit = (e: React.FormEvent) => {
-  //   e.preventDefault();
-  //   setFormData({ name: "", email: "", message: "" });
-  // };
-
-const handleSubmit = async (e: React.FormEvent) => {
-  e.preventDefault();
-
-  try {
-    // 1️⃣ Save to Supabase DB
-    const { error } = await supabase
-      .from("contact_messages")
-      .insert([formData]);
-
-    if (error) throw error;
-
-    // 2️⃣ Call Edge Function (send email)
-    await fetch(
-      import.meta.env.VITE_SUPABASE_URL+"/functions/v1/send-email",
-      {
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    try {
+      const { error } = await supabase.from("contact_messages").insert([formData]);
+      if (error) throw error;
+      await fetch(import.meta.env.VITE_SUPABASE_URL + "/functions/v1/send-email", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          "Authorization": "Bearer "+import.meta.env.VITE_SUPABASE_ANON_KEY, // ✅ REQUIRED
+          Authorization: "Bearer " + import.meta.env.VITE_SUPABASE_ANON_KEY,
         },
         body: JSON.stringify(formData),
-      }
-    );
-
-    // ✅ Success
-    alert("Message sent successfully 🚀");
-
-    // Reset form
-    setFormData({ name: "", email: "", message: "" });
-
-  } catch (err) {
-    console.error(err);
-    alert("Something went wrong ❌");
-  }
-};
+      });
+      alert("Message sent successfully 🚀");
+      setFormData({ name: "", email: "", message: "" });
+    } catch (err) {
+      console.error(err);
+      alert("Something went wrong ❌");
+    }
+  };
 
   const contactInfo = [
     { icon: Phone, label: siteConfig.phone },
@@ -53,16 +33,18 @@ const handleSubmit = async (e: React.FormEvent) => {
     { icon: MapPin, label: siteConfig.location },
   ];
 
-  return (
-    <section id="contact" className="py-24 px-6">
-      <div className="container mx-auto max-w-5xl">
-        <h2 className="font-heading text-3xl md:text-4xl font-bold text-center mb-16">Contact Us</h2>
+  const inputClass = "w-full px-5 py-3.5 rounded-xl border border-border bg-card text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-kite-blue/20 focus:border-kite-blue/40 transition-all duration-300";
 
-        <div className="grid md:grid-cols-2 gap-12">
-          <div className="space-y-6">
+  return (
+    <section id="contact" className="py-28 px-6 bg-section-alt">
+      <div className="container mx-auto max-w-5xl">
+        <h2 className="font-heading text-3xl md:text-5xl font-bold text-center mb-16">Contact Us</h2>
+
+        <div className="grid md:grid-cols-2 gap-16">
+          <div className="space-y-8">
             {contactInfo.map(({ icon: Icon, label }) => (
-              <div key={label} className="flex items-center gap-4">
-                <div className="w-10 h-10 rounded-lg bg-kite-blue/10 flex items-center justify-center shrink-0">
+              <div key={label} className="flex items-center gap-5">
+                <div className="w-12 h-12 rounded-xl bg-kite-blue/10 flex items-center justify-center shrink-0">
                   <Icon className="w-5 h-5 text-kite-blue" />
                 </div>
                 <span className="text-muted-foreground">{label}</span>
@@ -70,11 +52,13 @@ const handleSubmit = async (e: React.FormEvent) => {
             ))}
           </div>
 
-          <form onSubmit={handleSubmit} className="space-y-4">
-            <input type="text" placeholder="Your Name" value={formData.name} onChange={(e) => setFormData({ ...formData, name: e.target.value })} className="w-full px-4 py-3 rounded-lg border border-border bg-card text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-kite-blue/30 transition" />
-            <input type="email" placeholder="Your Email" value={formData.email} onChange={(e) => setFormData({ ...formData, email: e.target.value })} className="w-full px-4 py-3 rounded-lg border border-border bg-card text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-kite-blue/30 transition" />
-            <textarea placeholder="Your Message" rows={4} value={formData.message} onChange={(e) => setFormData({ ...formData, message: e.target.value })} className="w-full px-4 py-3 rounded-lg border border-border bg-card text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-kite-blue/30 transition resize-none" />
-            <button type="submit" className="w-full py-3 rounded-lg bg-primary text-primary-foreground font-medium hover:opacity-90 transition">Send Message</button>
+          <form onSubmit={handleSubmit} className="space-y-5">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+              <input type="text" placeholder="Your Name" value={formData.name} onChange={(e) => setFormData({ ...formData, name: e.target.value })} className={inputClass} />
+              <input type="email" placeholder="Your Email" value={formData.email} onChange={(e) => setFormData({ ...formData, email: e.target.value })} className={inputClass} />
+            </div>
+            <textarea placeholder="Your Message" rows={5} value={formData.message} onChange={(e) => setFormData({ ...formData, message: e.target.value })} className={`${inputClass} resize-none`} />
+            <button type="submit" className="w-full py-4 rounded-xl bg-primary text-primary-foreground font-medium tracking-wide hover:opacity-90 transition-all duration-300">Send Message</button>
           </form>
         </div>
       </div>
