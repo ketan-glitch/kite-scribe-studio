@@ -9,9 +9,9 @@ export const siteConfig = {
     "KITE STATIONARY is a creative and quality-focused stationery brand built for students, artists, and professionals. We blend affordability with a premium feel — because great ideas deserve great tools.",
 
   // Contact
-  phone: "+91 98765 43210",
-  email: "hello@kiteshop.com",
-  location: "Chennai, Tamil Nadu",
+  phone: "+91 83905 77189 | +91 8689814110",
+  email: "kitestationery@gmail.com",
+  location: "Kalyan, Maharashtra",
 
   // Social
   socials: {
@@ -36,7 +36,7 @@ export const siteConfig = {
 
   // Launch / announcement
   launchText: "We're Launching Soon!",
-  launchSubtext: "Stay tuned for the grand opening of KITE STATIONARY in Chennai.",
+  launchSubtext: "Stay tuned for the grand opening of KITE STATIONARY in Kalyan.",
   openingSoonLabel: "Opening Soon",
 
   // Footer
